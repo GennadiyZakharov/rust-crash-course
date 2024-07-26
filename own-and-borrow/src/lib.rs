@@ -51,22 +51,33 @@ pub fn demo_references() {
 }
 
 pub fn demo_mutability() {
-    // MUTABILITY FOR REFERENCES
-    // To change the variable, we need to specify it as mutable
+    // MUTABILITY AND REFERENCES
+    // To change the variable and assigned data structure, we need to specify it as mutable
     let mut mut_msg = String::from(MSG_LITERAL);
     // Now we can use functions that modify our structure
     mut_msg.push_str(" is mutable!");
-    print_string(&mut_msg);
 
-    // For mutable variable we can create mutable reference
-    let mut_ref= &mut mut_msg;
-    // Now we can pass reference to the functions that change data structure
-    print_and_change_string(mut_ref);
-    // Any function accepting immutable references, can work with mutable
+    // We can create simple immutable references
+    let immute_ref = &mut_msg;
+    print_string(&immute_ref);
+
+    // Usually we create immutable reference to a MUTABLE structure
+    let mut_struct_ref = &mut mut_msg;
+    // With this reference, we can modify the CONTENT of the structure
+    mut_struct_ref.push_str(", is mutable via mut ref!");
+    print_and_change_string(mut_struct_ref);
+    // However, we can,t change the REFERENCE itself
+    // mut_struct_ref = String::from("Hello another world"); // this won't work
+
+    // We can create MUTABLE reference for an IMMUTABLE structure
+    let mut mut_ref= &mut_msg;
     print_string(mut_ref);
-
-    // We can create a new reference - we'll see that the original value has benn changes
-    print_string(&mut_msg);
+    // We can't modify the CONTENT of the structure
+    // mut_ref.push_str(", modified via mut ref"); // This won't work!!!
+    // But we can redirect the reference to another structure
+    let another_string = String::from("Hello another world");
+    mut_ref = &another_string;
+    print_string(mut_ref);
 }
 
 fn sum2(a:i32, b:i32) -> i32 {
@@ -79,10 +90,10 @@ fn print_string_own(msg: String) {
 
 
 fn print_string(msg: &String) {
-    println!("The message is: {}", msg)
+    println!("Message: {}", msg)
 }
 
 fn print_and_change_string(msg: &mut String) {
-    println!("The message to change is: {}", msg);
+    println!("Message to change: {}", msg);
     msg.push_str(" - was changes after printing");
 }
