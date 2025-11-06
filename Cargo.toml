@@ -1,5 +1,5 @@
 [package]
-name = "own-and-borrow"
+name = "rustcourse"
 version = "0.1.0"
 edition = "2021"
 
